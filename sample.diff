@@ -1,0 +1,10 @@
+--- a/example.py
++++ b/example.py
+@@ -1,5 +1,6 @@
+ def calculate_sum(a, b):
+-    return a+b
++    result = a + b
++    return result
+ 
+ def main():
+     print(calculate_sum(5, 3))

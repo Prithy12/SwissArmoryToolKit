@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "summary": {
+    "lines": {
+      "total": 150,
+      "covered": 108,
+      "percentage": 72
+    },
+    "branches": {
+      "total": 50,
+      "covered": 35,
+      "percentage": 70
+    }
+  },
+  "files": [
+    {
+      "name": "user_service.py",
+      "coverage": 65
+    },
+    {
+      "name": "auth_handler.py",
+      "coverage": 78
+    }
+  ]
+}

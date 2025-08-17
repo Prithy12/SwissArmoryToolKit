@@ -1,0 +1,123 @@
+{
+  "coverage": {
+    "total": {
+      "lines": {
+        "total": 2847,
+        "covered": 2051,
+        "skipped": 0,
+        "pct": 72.04
+      },
+      "functions": {
+        "total": 387,
+        "covered": 289,
+        "skipped": 0,
+        "pct": 74.68
+      },
+      "statements": {
+        "total": 2847,
+        "covered": 2051,
+        "skipped": 0,
+        "pct": 72.04
+      },
+      "branches": {
+        "total": 654,
+        "covered": 432,
+        "skipped": 0,
+        "pct": 66.06
+      }
+    }
+  },
+  "files": {
+    "src/auth/user_service.py": {
+      "lines": {"total": 145, "covered": 87, "pct": 60.0},
+      "functions": {"total": 8, "covered": 5, "pct": 62.5},
+      "statements": {"total": 145, "covered": 87, "pct": 60.0},
+      "branches": {"total": 32, "covered": 18, "pct": 56.25},
+      "uncovered_lines": [23, 24, 67, 68, 69, 89, 90, 91, 92, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145]
+    },
+    "src/api/payment_processor.py": {
+      "lines": {"total": 234, "covered": 123, "pct": 52.56},
+      "functions": {"total": 12, "covered": 6, "pct": 50.0},
+      "statements": {"total": 234, "covered": 123, "pct": 52.56},
+      "branches": {"total": 45, "covered": 19, "pct": 42.22},
+      "uncovered_lines": [45, 46, 47, 78, 79, 80, 81, 145, 146, 147, 148, 149, 150, 189, 190, 191, 192, 193, 194, 195, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234]
+    },
+    "src/utils/validation.py": {
+      "lines": {"total": 89, "covered": 89, "pct": 100.0},
+      "functions": {"total": 6, "covered": 6, "pct": 100.0},
+      "statements": {"total": 89, "covered": 89, "pct": 100.0},
+      "branches": {"total": 18, "covered": 18, "pct": 100.0},
+      "uncovered_lines": []
+    },
+    "src/database/models.py": {
+      "lines": {"total": 456, "covered": 367, "pct": 80.48},
+      "functions": {"total": 34, "covered": 28, "pct": 82.35},
+      "statements": {"total": 456, "covered": 367, "pct": 80.48},
+      "branches": {"total": 89, "covered": 73, "pct": 82.02},
+      "uncovered_lines": [123, 124, 125, 234, 235, 236, 237, 345, 346, 347, 348, 349, 350, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456]
+    },
+    "src/api/auth_handler.py": {
+      "lines": {"total": 178, "covered": 98, "pct": 55.06},
+      "functions": {"total": 9, "covered": 4, "pct": 44.44},
+      "statements": {"total": 178, "covered": 98, "pct": 55.06},
+      "branches": {"total": 34, "covered": 15, "pct": 44.12},
+      "uncovered_lines": [56, 57, 58, 59, 60, 61, 62, 89, 90, 91, 92, 93, 94, 95, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178]
+    },
+    "src/services/notification_service.py": {
+      "lines": {"total": 267, "covered": 145, "pct": 54.31},
+      "functions": {"total": 15, "covered": 8, "pct": 53.33},
+      "statements": {"total": 267, "covered": 145, "pct": 54.31},
+      "branches": {"total": 52, "covered": 24, "pct": 46.15},
+      "uncovered_lines": [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267]
+    },
+    "src/api/user_controller.py": {
+      "lines": {"total": 198, "covered": 176, "pct": 88.89},
+      "functions": {"total": 11, "covered": 10, "pct": 90.91},
+      "statements": {"total": 198, "covered": 176, "pct": 88.89},
+      "branches": {"total": 38, "covered": 34, "pct": 89.47},
+      "uncovered_lines": [167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188]
+    },
+    "src/utils/cache_manager.py": {
+      "lines": {"total": 134, "covered": 67, "pct": 50.0},
+      "functions": {"total": 8, "covered": 3, "pct": 37.5},
+      "statements": {"total": 134, "covered": 67, "pct": 50.0},
+      "branches": {"total": 24, "covered": 9, "pct": 37.5},
+      "uncovered_lines": [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134]
+    }
+  },
+  "test_results": {
+    "total_tests": 234,
+    "passed": 198,
+    "failed": 12,
+    "skipped": 24,
+    "success_rate": 84.6,
+    "execution_time": "45.6s"
+  },
+  "critical_gaps": [
+    {
+      "file": "src/auth/user_service.py",
+      "functions": ["password_reset", "account_lockout", "session_cleanup"],
+      "priority": "high",
+      "risk": "Authentication vulnerabilities"
+    },
+    {
+      "file": "src/api/payment_processor.py", 
+      "functions": ["refund_transaction", "fraud_detection", "payment_validation"],
+      "priority": "critical",
+      "risk": "Financial transaction errors"
+    },
+    {
+      "file": "src/services/notification_service.py",
+      "functions": ["email_delivery_failure", "sms_fallback", "webhook_retry"],
+      "priority": "medium",
+      "risk": "Communication failures"
+    }
+  ],
+  "recommendations": [
+    "Increase coverage for authentication module to 90%+",
+    "Add comprehensive tests for payment processing edge cases",
+    "Implement integration tests for notification service",
+    "Add performance tests for database models",
+    "Create end-to-end tests for critical user flows"
+  ]
+}

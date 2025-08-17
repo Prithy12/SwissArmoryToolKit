@@ -1,0 +1,127 @@
+stages:
+  - build
+  - test
+  - security
+  - deploy
+
+variables:
+  NODE_VERSION: "18"
+  DOCKER_REGISTRY: "registry.gitlab.com/mycompany/myapp"
+  POSTGRES_DB: "test_db"
+  POSTGRES_USER: "test_user"
+  POSTGRES_PASSWORD: "test_password"  # Security issue: hardcoded password
+
+# Build stage - inefficient Docker usage
+build:
+  stage: build
+  image: node:18
+  services:
+    - docker:dind
+  before_script:
+    - apt-get update && apt-get install -y docker.io  # Slow package installation
+  script:
+    - npm install  # No caching
+    - npm run build
+    - docker build -t $DOCKER_REGISTRY:$CI_COMMIT_SHA .
+    - docker build -t $DOCKER_REGISTRY:latest .  # Duplicate build
+    - docker push $DOCKER_REGISTRY:$CI_COMMIT_SHA
+    - docker push $DOCKER_REGISTRY:latest
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+# Test stage - could be parallelized
+test_unit:
+  stage: test
+  image: node:18
+  script:
+    - npm install  # Duplicate dependency installation
+    - npm run test:unit
+  coverage: '/Coverage: \d+\.\d+/'
+
+test_integration:
+  stage: test
+  image: node:18
+  services:
+    - postgres:13
+  variables:
+    POSTGRES_DB: $POSTGRES_DB
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  script:
+    - npm install  # Another duplicate installation
+    - npm run test:integration
+  dependencies:
+    - build
+
+# Security stage - missing best practices
+security_scan:
+  stage: security
+  image: node:18
+  script:
+    - npm audit  # Basic audit only
+    - echo "API_KEY=sk-test-1234567890" > .env  # Hardcoded secret!
+    - echo "Running security scan with key: $API_KEY"
+  allow_failure: true  # Security failures allowed!
+
+dependency_check:
+  stage: security
+  image: owasp/dependency-check
+  script:
+    - /usr/share/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --format JSON
+  artifacts:
+    reports:
+      dependency_scanning: dependency-check-report.json
+  dependencies:
+    - build
+
+# Deploy stage - missing environment protection
+deploy_staging:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "Deploying to staging..."
+    - curl -X POST "https://api.staging.example.com/deploy" \
+           -H "Authorization: Bearer hardcoded-token-123"  # Another security issue!
+    - echo "Deployment complete"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  dependencies:
+    - build
+    - test_unit
+    - test_integration
+  only:
+    - develop
+
+deploy_production:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl kubectl
+  script:
+    - echo "Deploying to production..."
+    # Missing proper deployment verification
+    # No rollback mechanism
+    # No health checks
+    - kubectl apply -f k8s/
+    - sleep 30  # Poor health check
+    - curl -f https://api.example.com/health || exit 1
+  environment:
+    name: production
+    url: https://example.com
+  dependencies:
+    - build
+    - security_scan
+    - dependency_check
+  when: manual
+  only:
+    - main
+
+# Missing cleanup job
+# No artifact management
+# No monitoring integration
+# No notification on failure

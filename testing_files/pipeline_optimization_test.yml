@@ -1,0 +1,120 @@
+name: Build and Deploy Web Application
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18'
+  DOCKER_REGISTRY: 'my-registry.com'
+  APP_NAME: 'web-app'
+
+jobs:
+  # Test job - could be optimized with caching
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run unit tests
+        run: npm test
+      
+      - name: Run integration tests
+        run: npm run test:integration
+      
+      - name: Generate coverage report
+        run: npm run coverage
+
+  # Build job - has dependency duplication issue
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Install dependencies  # Duplicate installation!
+        run: npm install
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} .
+          docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.APP_NAME }}:latest .
+
+  # Security scan - could run in parallel with tests
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Run dependency audit
+        run: npm audit
+      
+      - name: Security scan with hardcoded secrets
+        run: |
+          export API_KEY="sk-1234567890abcdef"  # Security issue!
+          export DB_PASSWORD="admin123"         # Another security issue!
+          echo "Running security scan..."
+      
+      - name: Docker security scan
+        run: |
+          docker run --rm -v $(pwd):/app security-scanner:latest
+
+  # Deploy job - missing proper error handling
+  deploy:
+    needs: [build, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          # Missing proper deployment verification
+          # No rollback mechanism
+          # No health checks
+          kubectl apply -f deployment.yaml
+          
+      - name: Notify team
+        run: |
+          curl -X POST https://hooks.slack.com/services/WEBHOOK_URL \
+            -H 'Content-type: application/json' \
+            --data '{"text":"Deployment completed"}'
+
+  # Database migration - runs sequentially but could be optimized
+  migrate:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run database migrations
+        run: |
+          # No connection pooling
+          # No migration rollback plan
+          # No backup verification
+          for i in {1..100}; do
+            mysql -h production-db -u admin -p$DB_PASSWORD -e "SELECT 1"
+          done
+          
+      - name: Update schema
+        run: |
+          # Potentially dangerous operation without safeguards
+          mysql -h production-db -u admin -p$DB_PASSWORD < schema_changes.sql
